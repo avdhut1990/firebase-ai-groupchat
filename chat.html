@@ -1,0 +1,73 @@
+</!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet prefetch" href="css/jquery.mCustomScrollbar.min.css">
+	<link rel="stylesheet prefetch" href="css/chat.css">
+	<!--
+	Messaging interface based on Fabio Ottaviani's work on codepen: http://cdpn.io/jqOBqp
+	-->
+</head>
+<body>
+	<div class="chat">
+		<div class="chat-title">
+			<div id="chat-agent">
+				<h1>Chat Agent</h1>
+				<h2>.....</h2>
+				<figure class="avatar">
+					<img src="images/chatagent.png"/>
+				</figure>
+			</div>
+			<figure class="avatar chat-window-action">
+				<img src="images/minus.png" id="minus"/>
+				<img src="images/plus.png" id="plus"/>
+			</figure>
+		</div>
+		<div class="messages">
+			<div class="messages-content"></div>
+			<div class="chatgroups-content">
+				<div class="chatgroups-option odd" id="underwriters">
+					<h1>Underwriters</h1>
+					<h2>.....</h2>
+					<figure class="avatar">
+						<img src="images/chatagent-red.png"/>
+					</figure>
+				</div>
+				<div class="chatgroups-option even" id="backoffice">
+					<h1>Backoffice</h1>
+					<h2>.....</h2>
+					<figure class="avatar">
+						<img src="images/chatagent-green.png"/>
+					</figure>
+				</div>
+				<div class="chatgroups-option odd" id="ithelpdesk">
+					<h1>IT Helpdesk</h1>
+					<h2>.....</h2>
+					<figure class="avatar">
+						<img src="images/chatagent-yellow.png"/>
+					</figure>
+				</div>
+			</div>
+			<div class="chatgroups-tags">
+				<div class="chatgroups-tag-option">
+					<h1>@Underwriters</h1>
+				</div>
+				<div class="chatgroups-tag-option">
+					<h1>@Backoffice</h1>
+				</div>
+				<div class="chatgroups-tag-option">
+					<h1>@ITHelpdesk</h1>
+				</div>
+			</div>
+		</div>
+		<div class="message-box">
+			<textarea type="text" class="message-input" placeholder="Type message..."></textarea>
+			<button type="submit" class="message-submit">Send</button>
+		</div>
+	</div>
+	<div class="bg"></div>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+	<script src="js/chat.js"></script>
+</body>
+</html>
