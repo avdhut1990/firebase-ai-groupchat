@@ -15,6 +15,12 @@ var $messageinput = $('.message-input');
 var $currentChatIcon = $('.chat-title div .avatar img').attr("src");
 var messageDate, messageMinutes;
 var fgc;
+var fixedOptions = {
+	"productQueries":"I have a query regarding a product.",
+	"quickQuote":"I would like to generate a quick quote.",
+	"faq":"I have a general query.",
+	"askTheUnderwriter":"I would like to post a message to an Underwriter.",
+}
 
 
 $(window).load(function() {
@@ -72,6 +78,15 @@ $(window).load(function() {
 		$(this).addClass("selected");
 		switchChat();
 	});
+
+	$("#menu-button").click(function() {
+		$("#chat-options").fadeToggle();
+	});
+
+	$(".fixedOptions").click(function() {
+		insertMessage(fixedOptions[$(this).attr("data-attr")]);
+		$("#chat-options").fadeToggle();
+	});
 });
 
 
@@ -91,7 +106,11 @@ function parseResponse(data){
 
 
 function logError(data){
-	console.log("event failed");
+	console.log(data.responseJSON.status.errorDetails);
+	$('.message.loading').remove();
+	$('<div class="message new"><figure class="avatar"><img src="'+$currentChatIcon+'"/></figure>Network Error!</div>').appendTo($('.mCSB_container')).addClass('new');
+	setDate();
+	updateScrollbar();
 }
 
 
@@ -141,10 +160,12 @@ function setDate(){
 }
 
 
-function insertMessage() {
-	msg = $messageinput.val();
-	if ($.trim(msg) == '') {
-		return false;
+function insertMessage(msg) {
+	if (msg == undefined){
+		msg = $messageinput.val();
+		if ($.trim(msg) == '') {
+			return false;
+		}
 	}
 	$('<div class="message message-personal">' + msg + '</div>').appendTo($('.mCSB_container')).addClass('new');
 	setDate();

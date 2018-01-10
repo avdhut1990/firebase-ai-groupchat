@@ -375,9 +375,13 @@ Chat Options
   height: 100%;
   background: red;
 }
+#menu-button {
+  cursor: pointer;
+}
 #chat-options {
-  height: 50px;
+  height: 90px;
   padding: 10px 15px;
+  display: none;
 }
 #chat-option1 {
   width: 80px;
@@ -385,6 +389,7 @@ Chat Options
   background: cornsilk;
   border-radius: 5px;
   position: absolute;
+  cursor: pointer;
 }
 #chat-option2 {
   width: 80px;
@@ -393,6 +398,7 @@ Chat Options
   border-radius: 5px;
   position: absolute;
   left: 110px;
+  cursor: pointer;
 }
 #chat-option3 {
   width: 80px;
@@ -401,6 +407,16 @@ Chat Options
   border-radius: 5px;
   position: absolute;
   left: 205px;
+  cursor: pointer;
+}
+#chat-option4 {
+  width: 270px;
+  height: 30px;
+  background: darkgray;
+  border-radius: 5px;
+  position: absolute;
+  margin-top: 40px;
+  cursor: pointer;
 }
 #chat-options img {
   margin: 7px 0px 0px 5px;
@@ -409,7 +425,6 @@ Chat Options
 .chat-option-text {
   padding-left: 30px;
   font-size: 10px;
-  width: 40px;
   display: table-cell;
   height: 30px;
   vertical-align: middle;
