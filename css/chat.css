@@ -31,7 +31,6 @@ body {
   top: 0;
   left: 0;
   z-index: 1;
-  background: url("https://images.unsplash.com/photo-1451186859696-371d9477be93?crop=entropy&fit=crop&fm=jpg&h=975&ixjsv=2.1.0&ixlib=rb-0.3.5&q=80&w=1925") no-repeat 0 0;
   -webkit-filter: blur(80px);
           filter: blur(80px);
   -webkit-transform: scale(1.2);
@@ -368,6 +367,53 @@ Chat Groups
 }
 
 
+/*--------------------
+Chat Options
+--------------------*/
+.toggle-button {
+  width: 10%;
+  height: 100%;
+  background: red;
+}
+#chat-options {
+  height: 50px;
+  padding: 10px 15px;
+}
+#chat-option1 {
+  width: 80px;
+  height: 30px;
+  background: cornsilk;
+  border-radius: 5px;
+  position: absolute;
+}
+#chat-option2 {
+  width: 80px;
+  height: 30px;
+  background: lightblue;
+  border-radius: 5px;
+  position: absolute;
+  left: 110px;
+}
+#chat-option3 {
+  width: 80px;
+  height: 30px;
+  background: goldenrod;
+  border-radius: 5px;
+  position: absolute;
+  left: 205px;
+}
+#chat-options img {
+  margin: 7px 0px 0px 5px;
+  position: absolute;
+}
+.chat-option-text {
+  padding-left: 30px;
+  font-size: 10px;
+  width: 40px;
+  display: table-cell;
+  height: 30px;
+  vertical-align: middle;
+}
 
 /*--------------------
 Message Box
@@ -390,8 +436,7 @@ Message Box
   font-size: 11px;
   height: 17px;
   margin: 0;
-  padding-right: 20px;
-  width: 265px;
+  width: 210px;
 }
 .message-box textarea:focus:-webkit-placeholder {
   color: transparent;

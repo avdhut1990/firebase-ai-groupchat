@@ -1,9 +1,3 @@
-var firebaseAPIKey = null;
-var dialogflowSessionId = null;
-var dialogflowLang = null;
-var dialogflowAccessToken = null;
-var dialogflowBaseUrl = null;
-
 var firebaseUserIdToken = null;
 var firebaseUserLocalId = null;
 var firebaseUserRefreshToken = null;
@@ -20,13 +14,14 @@ var $chatgrouptags = $('.chatgroups-tags');
 var $messageinput = $('.message-input');
 var $currentChatIcon = $('.chat-title div .avatar img').attr("src");
 var messageDate, messageMinutes;
+var fgc;
 
 
 $(window).load(function() {
-	initChat();
+	fgc = new FirebaseAIGroupChat();
 	$messages.mCustomScrollbar();
 	setTimeout(function() {
-		triggerDFEvent("WELCOME");
+		fgc.triggerDFEvent("WELCOME", showLoading, parseResponse, logError);
 	}, 100);
 
 	$('.message-submit').click(function() {
@@ -80,12 +75,23 @@ $(window).load(function() {
 });
 
 
-function initChat(){
-	firebaseAPIKey = "";
-	dialogflowSessionId = Math.floor(Math.random() * 1000000);
-	dialogflowLang = "en";
-	dialogflowAccessToken ="";
-	dialogflowBaseUrl = "https://api.dialogflow.com/v1/query?v=20150910";
+function showLoading(){
+	$('<div class="message loading new"><figure class="avatar"><img src="'+$currentChatIcon+'"/></figure><span></span></div>').appendTo($('.mCSB_container'));
+	updateScrollbar();
+}
+
+
+function parseResponse(data){
+	var receivedMessage = data.result.fulfillment.speech;
+	$('.message.loading').remove();
+	$('<div class="message new"><figure class="avatar"><img src="'+$currentChatIcon+'"/></figure>' + receivedMessage + '</div>').appendTo($('.mCSB_container')).addClass('new');
+	setDate();
+	updateScrollbar();
+}
+
+
+function logError(data){
+	console.log("event failed");
 }
 
 
@@ -113,7 +119,7 @@ function switchChat(){
 	$(".messages-content").html("");
 	$messages.mCustomScrollbar();
 	setTimeout(function() {
-		triggerDFEvent("WELCOME");
+		fgc.triggerDFEvent("WELCOME", showLoading, parseResponse, logError);
 	}, 100);
 }
 
@@ -145,58 +151,6 @@ function insertMessage() {
 	$messageinput.val(null);
 	updateScrollbar();
 	setTimeout(function() {
-		getDFResponse(msg);
+		fgc.getDFResponse(msg, showLoading, parseResponse, logError);
 	}, 1000 + (Math.random() * 20) * 100);
-}
-
-
-function getDFResponse(sentMessage) {
-	$('<div class="message loading new"><figure class="avatar"><img src="'+$currentChatIcon+'"/></figure><span></span></div>').appendTo($('.mCSB_container'));
-	updateScrollbar();
-	$.ajax({
-		type: "POST",
-		url: dialogflowBaseUrl,
-		contentType: "application/json; charset=utf-8",
-		dataType: "json",
-		headers: {
-			"Authorization": "Bearer " + dialogflowAccessToken
-		},
-		data: JSON.stringify({ query: sentMessage, lang: dialogflowLang, sessionId: dialogflowSessionId }),
-		success: function(data) {
-			var receivedMessage = data.result.fulfillment.speech;
-			$('.message.loading').remove();
-			$('<div class="message new"><figure class="avatar"><img src="'+$currentChatIcon+'"/></figure>' + receivedMessage + '</div>').appendTo($('.mCSB_container')).addClass('new');
-			setDate();
-			updateScrollbar();
-		},
-		error: function() {
-			console.log("getDFResponse failed");
-		}
-	});
-}
-
-
-function triggerDFEvent(eventName) {
-	$('<div class="message loading new"><figure class="avatar"><img src="'+$currentChatIcon+'"/></figure><span></span></div>').appendTo($('.mCSB_container'));
-	updateScrollbar();
-	$.ajax({
-		type: "POST",
-		url: dialogflowBaseUrl,
-		contentType: "application/json; charset=utf-8",
-		dataType: "json",
-		headers: {
-			"Authorization": "Bearer " + dialogflowAccessToken
-		},
-		data: JSON.stringify({ event: { name: eventName}, lang: dialogflowLang, sessionId: dialogflowSessionId }),
-		success: function(data) {
-			var receivedMessage = data.result.fulfillment.speech;
-			$('.message.loading').remove();
-			$('<div class="message new"><figure class="avatar"><img src="'+$currentChatIcon+'"/></figure>' + receivedMessage + '</div>').appendTo($('.mCSB_container')).addClass('new');
-			setDate();
-			updateScrollbar();
-		},
-		error: function() {
-			console.log("triggerDFEvent failed");
-		}
-	});
 }
