@@ -1,20 +1,12 @@
-var firebaseUserIdToken = null;
-var firebaseUserLocalId = null;
-var firebaseUserRefreshToken = null;
-var chatRefreshLastTimestamp = 0;
-
-var name = "";
-var password = "";
-var emailId = "";
-
-
 var $messages = $('.messages-content');
 var $chatgroups = $('.chatgroups-content');
 var $chatgrouptags = $('.chatgroups-tags');
 var $messageinput = $('.message-input');
 var $currentChatIcon = $('.chat-title div .avatar img').attr("src");
 var messageDate, messageMinutes;
-var fgc;
+
+
+const client = new ApiAi.ApiAiClient({accessToken: ''});
 var fixedOptions = {
 	"productQueries":"I have a query regarding a product.",
 	"quickQuote":"I would like to generate a quick quote.",
@@ -24,10 +16,10 @@ var fixedOptions = {
 
 
 $(window).load(function() {
-	fgc = new FirebaseAIGroupChat();
 	$messages.mCustomScrollbar();
+	showLoading();
 	setTimeout(function() {
-		fgc.triggerDFEvent("WELCOME", showLoading, parseResponse, logError);
+		client.eventRequest("WELCOME").then(parseResponse).catch(logError);
 	}, 100);
 
 	$('.message-submit').click(function() {
@@ -137,8 +129,9 @@ function switchChat(){
 	$messages.mCustomScrollbar("destroy");
 	$(".messages-content").html("");
 	$messages.mCustomScrollbar();
+	showLoading();
 	setTimeout(function() {
-		fgc.triggerDFEvent("WELCOME", showLoading, parseResponse, logError);
+		client.eventRequest("WELCOME").then(parseResponse).catch(logError);
 	}, 100);
 }
 
@@ -171,7 +164,8 @@ function insertMessage(msg) {
 	setDate();
 	$messageinput.val(null);
 	updateScrollbar();
+	showLoading();
 	setTimeout(function() {
-		fgc.getDFResponse(msg, showLoading, parseResponse, logError);
+		client.textRequest(msg).then(parseResponse).catch(logError);
 	}, 1000 + (Math.random() * 20) * 100);
 }
